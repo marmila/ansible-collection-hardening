@@ -13,7 +13,7 @@
       when: ansible_facts.distribution == 'Fedora'
 
     - name: Install packages # noqa ignore-errors
-      ansible.builtin.yum:
+      ansible.builtin.dnf:
         name:
           - openssh-clients
           - openssh-server
@@ -62,11 +62,13 @@
         update_cache: true
       when: ansible_facts.os_family == 'Archlinux'
 
-    - name: Created needed directory
-      ansible.builtin.file:
-        path: /var/run/sshd
-        state: directory
-        mode: "0755"
+    - name: Install required tools on Alpine
+      community.general.apk:
+        name:
+          - openssh
+        state: present
+        update_cache: true
+      when: ansible_facts.os_family == 'Alpine'
 
     - name: Create ssh host keys # noqa ignore-errors
       ansible.builtin.command: ssh-keygen -A

@@ -1,5 +1,5 @@
 ---
-- name: Wrapper playbook for kitchen testing "ansible-ssh-hardening" with default settings
+- name: Prepare the molecule container for the role
   hosts: all
   become: true
   environment:
@@ -13,7 +13,7 @@
       when: ansible_facts.distribution == 'Fedora'
 
     - name: Install packages # noqa ignore-errors
-      ansible.builtin.yum:
+      ansible.builtin.dnf:
         name:
           - openssh-clients
           - openssh-server
@@ -53,6 +53,14 @@
           - openssh
       when: ansible_facts.os_family == 'Suse'
 
+    - name: Install required tools on Alpine
+      community.general.apk:
+        name:
+          - openssh
+        state: present
+        update_cache: true
+      when: ansible_facts.os_family == 'Alpine'
+
     - name: Install required tools on Arch
       community.general.pacman:
         name:
@@ -61,12 +69,6 @@
         state: present
         update_cache: true
       when: ansible_facts.os_family == 'Archlinux'
-
-    - name: Created needed directory
-      ansible.builtin.file:
-        path: /var/run/sshd
-        state: directory
-        mode: "0755"
 
     - name: Create ssh host keys # noqa ignore-errors
       ansible.builtin.command: ssh-keygen -A

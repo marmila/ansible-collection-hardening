@@ -1,5 +1,4 @@
 ---
-os_desktop_enable: false
 os_env_user_paths: [/usr/local/sbin, /usr/local/bin, /usr/sbin, /usr/bin, /sbin, /bin]
 os_env_extra_user_paths: []
 os_auth_pw_max_age: 60
@@ -40,7 +39,6 @@ os_users_without_password_ageing: []
 
 # Specify system accounts whose login should not be disabled and password not changed
 os_ignore_users: [vagrant, kitchen]
-os_security_kernel_enable_module_loading: true
 os_security_kernel_enable_core_dump: false
 os_security_suid_sgid_enforce: true
 # User-defined blacklist and whitelist
@@ -350,6 +348,7 @@ os_auditd_disk_error_action: SUSPEND
 os_auditd_action_mail_acct: root
 os_auditd_log_group: root
 os_auditd_num_logs: 5
+os_auditd_name_format: NONE
 
 # Set the SELinux state, which can be either disabled, permissive, or enforcing.
 os_selinux_state: enforcing

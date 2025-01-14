@@ -4,10 +4,6 @@ argument_specs:
     short_description: The main entry point for the os hardening role.
     version_added: 8.8.0
     options:
-      os_desktop_enable:
-        default: false
-        type: bool
-        description: true if this is a desktop system, ie Xorg, KDE/GNOME/Unity/etc.
       os_env_user_paths:
         default: [/usr/local/sbin, /usr/local/bin, /usr/sbin, /usr/bin, /sbin, /bin]
         type: list
@@ -73,13 +69,6 @@ argument_specs:
         default: '[]'
         type: list
         description: list of things, that a user is allowed to do. May contain `change_user`.
-      os_security_kernel_enable_module_loading:
-        default: true
-        type: bool
-        description: true if you want to allowed to change kernel modules once the
-          system is running (eg `modprobe`, `rmmod`). WARNING - Rebuilding initramfs
-          is deprecated and will be removed in the next major release. For more information
-          take a look at this issue <https://github.com/dev-sec/ansible-collection-hardening/pull/591>
       os_security_kernel_enable_core_dump:
         default: false
         type: bool
@@ -218,6 +207,16 @@ argument_specs:
         description: This keyword specifies the maximum file size in megabytes. When
           this limit is reached, it will trigger a configurable action. The value
           given must be numeric.
+      os_auditd_name_format:
+        default: NONE
+        type: str
+        description: This keyword specifies how computer node names are inserted
+              into the audit event stream.
+        choices:
+          - NONE
+          - hostname
+          - fqd
+          - numeric
       os_auditd_num_logs:
         default: 5
         type: int

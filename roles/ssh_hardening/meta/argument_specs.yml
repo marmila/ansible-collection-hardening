@@ -29,7 +29,6 @@ argument_specs:
           Default is all IPv4 addresses, but should be configured to specific addresses
           for security reasons
       ssh_host_key_files:
-        default: []
         type: list
         description: Host keys for sshd. If empty ['/etc/ssh/ssh_host_rsa_key', '/etc/ssh/ssh_host_ecdsa_key',
           '/etc/ssh/ssh_host_ed25519_key'] will be used, as far as supported by the
@@ -65,8 +64,8 @@ argument_specs:
       ssh_permit_tunnel:
         default: 'no'
         description: Specifies whether tun(4) device forwarding is allowed. The argument
-          must be yes, point-to-point (layer 3), ethernet (layer 2), or no. Specifying
-          yes permits both point-to-point and ethernet.
+          must be "yes", point-to-point (layer 3), ethernet (layer 2), or "no". Specifying
+          yes permits both point-to-point and ethernet. - The quotes are required!
         choices:
           - 'no'
           - 'yes'
@@ -88,7 +87,7 @@ argument_specs:
           you can specify `'yes'`, `'no'`, `'all'`, `'local'`or`'remote'`.
       ssh_gateway_ports:
         default: false
-        type: bool
+        type: raw
         description: Set to `false` to disable binding forwarded ports to non-loopback
           addresses. Set to `true` to force binding on wildcard address. Set to `clientspecified`
           to allow the client to specify which address to bind to.
@@ -259,6 +258,10 @@ argument_specs:
         default: true
         type: bool
         description: Set to `false` to disable the opensshd server.
+      ssh_server_service_enabled:
+        default: true
+        type: bool
+        description: Set to `false` to disable starting sshd at boot.
       ssh_server_hardening:
         default: true
         type: bool
@@ -314,15 +317,12 @@ argument_specs:
         description: Specifies the maximum number of concurrent unauthenticated connections
           to the SSH daemon.
       ssh_macs:
-        default: []
         type: list
         description: Change this list to overwrite macs. Defaults found in `defaults/main.yml`
       ssh_kex:
-        default: []
         type: list
         description: Change this list to overwrite kexs. Defaults found in `defaults/main.yml`
       ssh_ciphers:
-        default: []
         type: list
         description: Change this list to overwrite ciphers. Defaults found in `defaults/main.yml`
       ssh_custom_options:
@@ -365,3 +365,6 @@ argument_specs:
         default: sandbox
         description: Specifies whether sshd separates privileges by creating an unprivileged
           child process to deal with incoming network traffic.
+      ssh_forward_agent:
+        default: 'no'
+        description: Enables the ssh forward agent for the Cli if set to 'yes'

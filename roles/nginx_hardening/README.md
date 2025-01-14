@@ -19,19 +19,19 @@ It works with the following nginx-roles, including, but not limited to:
 ## Supported Operating Systems
 
 - EL
-  - 7, 8, 9
+  - 8, 9
 - Ubuntu
-  - bionic, focal, jammy
+  - focal, jammy, noble
 - Debian
-  - buster, bullseye
+  - bookworm, bullseye
 - Amazon
 
 ## Role Variables
 
 - `nginx_add_header`
-  - Default: `["X-Frame-Options SAMEORIGIN", "X-Content-Type-Options nosniff", "X-XSS-Protection \"1; mode=block\"", "Content-Security-Policy \\\"script-src 'self'; object-src 'self'\\\""]`
+  - Default: `['X-Frame-Options SAMEORIGIN', 'X-Content-Type-Options nosniff', 'X-XSS-Protection "1; mode=block"', 'Content-Security-Policy \\"script-src \'self\'; object-src \'self\'\\"']`
   - Description: Adds the specified field to a response header provided that the response code equals 200, 201, 204, 206, 301, 302, 303, 304, or 307. See [nginx_add_header](http://nginx.org/en/docs/http/ngx_http_headers_module.html#add_header)
-  - Type: list
+  - Type: list of ''
   - Required: no
 - `nginx_client_body_buffer_size`
   - Default: `1k`
@@ -104,7 +104,7 @@ It works with the following nginx-roles, including, but not limited to:
   - Type: str
   - Required: no
 - `nginx_remove_default_site`
-  - Default: `true`
+  - Default: `True`
   - Description: Disables the default site. Set to false to enable the default site in nginx.
   - Type: bool
   - Required: no
@@ -142,6 +142,7 @@ None.
 
 ```
 - hosts: all
+  become: true
   roles:
     - name: devsec.hardening.nginx_hardening
 ```
